@@ -34,6 +34,7 @@ public class OrderTableModel extends AbstractTableModel {
     private final static int STOPPRICE = 7;
     private final static int AVGPX = 8;
     private final static int TARGET = 9;
+    private final static int ID = 10;
 
     private final HashMap<Integer, Order> rowToOrder;
     private final HashMap<String, Integer> idToRow;
@@ -49,7 +50,7 @@ public class OrderTableModel extends AbstractTableModel {
         headers = new String[]
                   {"Symbol", "Quantity", "Open", "Executed",
                    "Side", "Type", "Limit", "Stop", "AvgPx",
-                   "Target"};
+                   "Target", "ID"};
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -67,13 +68,16 @@ public class OrderTableModel extends AbstractTableModel {
     }
 
     public void updateOrder(Order order, String id) {
-
+        System.out.println("OrderTableModel:updateOrder");
+        // TODO: jknight - unclear how id could not equal order.getID() ?
         if (!id.equals(order.getID())) {
+            System.out.println("order.getID() != id: replace order");
             String originalID = order.getID();
             order.setID(id);
             replaceOrder(order, originalID);
             return;
         }
+        System.out.println("order.getID() == id ..");
 
         Integer row = idToRow.get(order.getID());
         if (row == null)
@@ -147,6 +151,8 @@ public class OrderTableModel extends AbstractTableModel {
             return order.getAvgPx();
         case TARGET:
             return order.getSessionID().getTargetCompID();
+        case ID:
+            return order.getID();
         }
         return "";
     }

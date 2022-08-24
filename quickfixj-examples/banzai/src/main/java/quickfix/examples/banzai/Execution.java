@@ -27,6 +27,7 @@ public class Execution {
     private String ID = null;
     private String exchangeID = null;
     private static int nextID = 1;
+    private String fix;
 
     public Execution() {
         ID = Integer.toString(nextID++);
@@ -62,6 +63,14 @@ public class Execution {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getFix() {
+        return this.fix;
+    }
+
+    public void setFix(String fix) {
+      this.fix = fix;
     }
 
     public void setPrice(double price) {

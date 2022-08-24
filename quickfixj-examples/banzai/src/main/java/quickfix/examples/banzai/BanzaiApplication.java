@@ -193,15 +193,24 @@ public class BanzaiApplication implements Application {
     }
 
     private void executionReport(Message message, SessionID sessionID) throws FieldNotFound {
+        System.out.println("BanzaiApplication => execution Report ...");
 
-        ExecID execID = (ExecID) message.getField(new ExecID());
-        if (alreadyProcessed(execID, sessionID))
-            return;
+        ExecID execID = (ExecID)message.getField(new ExecID());
+        ClOrdID clOrdID = (ClOrdID)message.getField(new ClOrdID());
+        System.out.println("ExecId is: " + execID.toString());
 
-        Order order = orderTableModel.getOrder(message.getField(new ClOrdID()).getValue());
-        if (order == null) {
+        if (alreadyProcessed(execID, sessionID)) {
+            System.out.println("ExecId " + execID.toString() + " is already processed -> return");
             return;
         }
+
+        System.out.println("Fetching the order from the orderTableModel by ClOrdID ...");
+        Order order = orderTableModel.getOrder(message.getField(new ClOrdID()).getValue());
+        if (order == null) {
+            System.out.println("Fetching the order from the orderTableModel by ClOrdID--> did not find an order -> return");
+            return;
+        }
+        System.out.println("Fetching the order from the orderTableModel by ClOrdID " + clOrdID + " - got order id: " + order.getID());
 
         BigDecimal fillSize;
 
@@ -242,10 +251,14 @@ public class BanzaiApplication implements Application {
         } catch (FieldNotFound e) {
         }
 
+        System.out.println("order.getID():" + order.getID() + " vs order.CLOrdID:"
+                            + message.getField(new ClOrdID()).getValue());
         orderTableModel.updateOrder(order, message.getField(new ClOrdID()).getValue());
         observableOrder.update(order);
 
-        if (fillSize.compareTo(BigDecimal.ZERO) > 0) {
+
+        System.out.println("Checking fill size > 0 ... fillSize: " + fillSize.toString());
+        //if (fillSize.compareTo(BigDecimal.ZERO) > 0) {
             Execution execution = new Execution();
             execution.setExchangeID(sessionID + message.getField(new ExecID()).getValue());
 
@@ -256,8 +269,10 @@ public class BanzaiApplication implements Application {
             }
             Side side = (Side) message.getField(new Side());
             execution.setSide(FIXSideToSide(side));
+            execution.setFix(message.toString());
+            System.out.println("Adding execution to the list ...");
             executionTableModel.addExecution(execution);
-        }
+        //}
     }
 
     private void cancelReject(Message message, SessionID sessionID) throws FieldNotFound {

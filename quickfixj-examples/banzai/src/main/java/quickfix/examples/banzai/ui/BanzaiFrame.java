@@ -41,7 +41,7 @@ public class BanzaiFrame extends JFrame {
             final BanzaiApplication application) {
         super();
         setTitle("Banzai!");
-        setSize(600, 400);
+        setSize(1024, 768);
 
         if (System.getProperties().containsKey("openfix")) {
             createMenuBar(application);

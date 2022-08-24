@@ -54,7 +54,6 @@ public class BanzaiPanel extends JPanel implements Observer, ActionListener {
                 BanzaiApplication application) {
         setName("BanzaiPanel");
         this.orderTableModel = orderTableModel;
-
         setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

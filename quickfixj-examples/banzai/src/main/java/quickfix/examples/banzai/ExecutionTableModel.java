@@ -24,10 +24,11 @@ import java.util.HashMap;
 
 public class ExecutionTableModel extends AbstractTableModel {
 
-    private final static int SYMBOL = 0;
-    private final static int QUANTITY = 1;
-    private final static int SIDE = 2;
-    private final static int PRICE = 3;
+    private final static int FIX = 0;
+    private final static int SYMBOL = 1;
+    private final static int QUANTITY = 2;
+    private final static int SIDE = 3;
+    private final static int PRICE = 4;
 
     private final HashMap<Integer, Execution> rowToExecution;
     private final HashMap<String, Integer> idToRow;
@@ -42,7 +43,7 @@ public class ExecutionTableModel extends AbstractTableModel {
         idToExecution = new HashMap<>();
         exchangeIdToExecution = new HashMap<>();
 
-        headers = new String[] {"Symbol", "Quantity", "Side", "Price"};
+        headers = new String[] {"FIX", "Symbol", "Quantity", "Side", "Price"};
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -101,6 +102,8 @@ public class ExecutionTableModel extends AbstractTableModel {
             return execution.getSide();
         case PRICE:
             return execution.getPrice();
+        case FIX:
+            return execution.getFix();
         }
         return "";
     }
