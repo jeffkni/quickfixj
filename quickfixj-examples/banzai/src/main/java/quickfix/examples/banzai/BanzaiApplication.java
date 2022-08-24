@@ -270,6 +270,7 @@ public class BanzaiApplication implements Application {
             Side side = (Side) message.getField(new Side());
             execution.setSide(FIXSideToSide(side));
             execution.setFix(message.toString());
+            execution.setOrdStatus(ordStatus);
             System.out.println("Adding execution to the list ...");
             executionTableModel.addExecution(execution);
         //}

@@ -19,6 +19,8 @@
 
 package quickfix.examples.banzai;
 
+import quickfix.field.OrdStatus;
+
 public class Execution {
     private String symbol = null;
     private int quantity = 0;
@@ -28,6 +30,7 @@ public class Execution {
     private String exchangeID = null;
     private static int nextID = 1;
     private String fix;
+    private OrdStatus ordStatus;
 
     public Execution() {
         ID = Integer.toString(nextID++);
@@ -67,6 +70,14 @@ public class Execution {
 
     public String getFix() {
         return this.fix;
+    }
+
+    public OrdStatus getOrdStatus(){
+        return this.ordStatus;
+    }
+
+    public void setOrdStatus(OrdStatus ordStatus) {
+        this.ordStatus = ordStatus;
     }
 
     public void setFix(String fix) {
